@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { BsEmojiSunglasses } from "react-icons/bs";
 
 const ChatMessages = () => {
+  const [emoji, setEmoji] = useState(false);
   return (
     <div className="flex flex-2 p-2 flex-col gap-2">
       <div id="top" className="w-full flex flex-col p-2">
         <div id="profile" className="flex justify-start items-center gap-4">
           <img src="./avatar.png" alt="" className="h-14 w-14 rounded-xl" />
           <div id="name-lastOnline" className="flex flex-col">
-            <h1>Gordito</h1>
+            <h1>Baner</h1>
             <i className="text-[8px] text-white/40">Last time Online</i>
           </div>
         </div>
@@ -16,13 +18,16 @@ const ChatMessages = () => {
         <div></div>
       </div>
       <div id="bottom">
-        <div className="flex justify-between items-center gap-2">
+        <div className=" relative flex justify-between items-center gap-2 ">
           <input
-            className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none"
+            className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none w-full font-extralight"
             type="text"
-            placeholder="type something..."
+            placeholder="Type something..."
           />
-          <button >Send</button>
+         
+          <button className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer">
+            Send
+          </button>
         </div>
       </div>
     </div>

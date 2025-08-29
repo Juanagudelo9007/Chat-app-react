@@ -6,7 +6,7 @@ import ProfileDetails from "../components/ProfileDetails";
 
 const Home = () => {
   return (
-    <div className="flex ">
+    <div className="flex h-full w-full ">
       <UserInfo />
       <ChatMessages />
       <ProfileDetails />

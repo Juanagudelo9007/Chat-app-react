@@ -11,12 +11,13 @@ const ChatList = () => {
           <input
             type="search"
             placeholder="Search..."
-            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40 text-xs p-1"
+            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40 text-xs p-1 font-extralight "
           />
           <span className="absolute top-1.5 left-1">
             <CiSearch />
           </span>
         </div>
+         <h1 className="font-extrabold">Chats</h1>
         <div
           className="flex items-center gap-2   bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70"
           id="profile-info"
