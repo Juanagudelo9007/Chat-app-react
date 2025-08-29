@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+*{
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-image: url("/bg-6.avif");
+    background-size: cover;
+   background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+}
