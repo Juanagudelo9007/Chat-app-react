@@ -7,13 +7,13 @@ const ChatList = () => {
   return (
     <div className="mt">
       <div className="flex flex-col gap-4" id="main-container">
-        <div className="relative" id="search">
+        <div className="relative " id="search">
           <input
             type="search"
-            placeholder="Search"
-            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40"
+            placeholder="Search..."
+            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40 text-xs p-1"
           />
-          <span className="absolute top-1 left-1">
+          <span className="absolute top-1.5 left-1">
             <CiSearch />
           </span>
         </div>
