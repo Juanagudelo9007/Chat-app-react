@@ -1,6 +1,5 @@
 import React from "react";
 import { CiSearch } from "react-icons/ci";
-import { MdAddCircleOutline } from "react-icons/md";
 import { FiMinusCircle } from "react-icons/fi";
 
 const ChatList = () => {
@@ -19,65 +18,21 @@ const ChatList = () => {
         </div>
          <h1 className="font-extrabold">Chats</h1>
         <div
-          className="flex items-center gap-2   bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70"
+          className="flex items-center j gap-2   bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70"
           id="profile-info"
         >
           <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
-          <div className="flex items-center gap-2 text-xs" id="icons-container">
-            <span>
+          <div className="flex items-center  gap-4 text-xs" id="icons-container">
+            <button className="cursor-pointer">
               <FiMinusCircle />
-            </span>
+            </button>
             <h1>Baner</h1>
             <span>
-              <MdAddCircleOutline />
+             
             </span>
           </div>
         </div>
-        <div
-          className="flex items-center gap-2   bg-white/30 rounded-md p-1 "
-          id="profile-info"
-        >
-          <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
-          <div className="flex items-center gap-2 text-xs" id="icons-container">
-            <span>
-              <FiMinusCircle />
-            </span>
-            <h1>Baner</h1>
-            <span>
-              <MdAddCircleOutline />
-            </span>
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-2   bg-white/30 rounded-md p-1 "
-          id="profile-info"
-        >
-          <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
-          <div className="flex items-center gap-2 text-xs" id="icons-container">
-            <span>
-              <FiMinusCircle />
-            </span>
-            <h1>Baner</h1>
-            <span>
-              <MdAddCircleOutline />
-            </span>
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-2   bg-white/30 rounded-md p-1 "
-          id="profile-info"
-        >
-          <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
-          <div className="flex items-center gap-2 text-xs" id="icons-container">
-            <span>
-              <FiMinusCircle />
-            </span>
-            <h1>Baner</h1>
-            <span>
-              <MdAddCircleOutline />
-            </span>
-          </div>
-        </div>
+      
       </div>
     </div>
   );

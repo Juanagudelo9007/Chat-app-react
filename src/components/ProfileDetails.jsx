@@ -10,11 +10,16 @@ const ProfileDetails = () => {
           <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
           <h1 className="text-sm">Baner</h1>
         </div>
-        <div className="flex-2" id="mid-recent-searches">Recent Searches</div>
+        <div className="flex-2" id="mid-recent-searches">
+          Recent Searches
+        </div>
         <div className="p-1" id="end-btns">
-          <button 
-          className="bg-red-600 w-full rounded-md font-light"
-          onClick={logOut}>Log Out</button>
+          <button
+            className="bg-red-600 w-full rounded-md font-light"
+            onClick={logOut}
+          >
+            Log Out
+          </button>
         </div>
       </div>
     </div>
