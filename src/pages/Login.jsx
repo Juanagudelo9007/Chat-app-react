@@ -52,6 +52,9 @@ const Login = () => {
           name,
           email,
         });
+        await setDoc(doc(db, "UserChats", res.user.uid), {
+          chats: [],
+        });
         console.log("User saved:", res.user);
         userInfo(res.user.uid);
         toast.success("User Created", {

@@ -15,7 +15,7 @@ const ProfileDetails = () => {
         </div>
         <div className="p-1" id="end-btns">
           <button
-            className="bg-red-600 w-full rounded-md font-light"
+            className="bg-red-600 w-full rounded-md font-light cursor-pointer"
             onClick={logOut}
           >
             Log Out
