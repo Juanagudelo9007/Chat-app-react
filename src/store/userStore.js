@@ -9,6 +9,7 @@ import {
   collection,
   limit,
   getDocs,
+  setDoc,
 } from "firebase/firestore";
 
 const db = getFirestore(app);
@@ -67,17 +68,42 @@ const useAuthStore = create((set, get) => ({
   },
 
   /* Add User */
-  addUser: (user) => {
-    const { chatList } = get();
-    if (!chatList.find((t) => t.id !== user.id)) {
-      set({ chatList: [...chatList, user] });
+
+  addUser: async (user) => {
+    const { chatList, currentUser } = get();
+    if (!chatList.find((t) => t.id === user.id)) {
+      const updatedList = [...chatList, user];
+      set({ chatList: updatedList });
+      await setDoc(doc(db, "UserChats", currentUser.id), {
+        chats: updatedList,
+      });
     }
   },
 
-  deleteUser: (id) => {
-    set((state) => ({
-      chatList: state.chatList.filter((p) => p.id !== id),
-    }));
+  deleteUser: async (id) => {
+    const { chatList, currentUser } = get();
+    const updatedList = chatList.filter((user) => user.id !== id);
+    set({ chatList: updatedList });
+
+    await setDoc(doc(db, "UserChats", currentUser.id), {
+      chats: updatedList,
+    });
+  },
+
+  /* Just a test  */
+
+  loadChats: async () => {
+    const { currentUser } = get();
+    if (!currentUser) return;
+
+    const ref = doc(db, "UserChats", currentUser.id);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      set({ chatList: snap.data().chats || [] });
+    } else {
+      set({ chatList: [] });
+    }
   },
 
   logOut: () => set({ currentUser: null }),

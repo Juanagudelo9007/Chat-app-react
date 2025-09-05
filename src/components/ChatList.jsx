@@ -1,11 +1,16 @@
-import React, { use } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiMinusCircle } from "react-icons/fi";
 import useAuthStore from "../store/userStore";
+import { useEffect } from "react";
 
 const ChatList = () => {
-const { input, setInput, chatList, deleteUser } = useAuthStore();
+  const { input, setInput, chatList, deleteUser, currentUser, loadChats } =
+    useAuthStore();
 
+  useEffect(() => {
+    if (!currentUser) return;
+    loadChats();
+  }, [currentUser]);
 
   return (
     <div className="mt overflow-auto">
@@ -35,12 +40,13 @@ const { input, setInput, chatList, deleteUser } = useAuthStore();
               className="flex items-center  gap-4 text-xs"
               id="icons-container"
             >
-              <button className="cursor-pointer"
-              onClick={()=>deleteUser(t.id)}
+              <button
+                className="cursor-pointer text-[15px]"
+                onClick={() => deleteUser(t.id)}
               >
                 <FiMinusCircle />
               </button>
-              <h1>{t.name}</h1>
+              <h1 className="text-[14px]">{t.name}</h1>
             </div>
           </div>
         ))}

@@ -6,8 +6,13 @@ import useAuthStore from "./store/userStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
-  const { currentUser, userInfo, logOut, isLoading, setIsLoading } =
-    useAuthStore();
+  const {
+    currentUser,
+    userInfo,
+    logOut,
+    isLoading,
+    setIsLoading,
+  } = useAuthStore();
   const auth = getAuth(app);
 
   useEffect(() => {
@@ -15,6 +20,7 @@ const App = () => {
       if (userFirebase) {
         setIsLoading(true);
         userInfo(userFirebase.uid);
+   
       } else {
         logOut();
       }

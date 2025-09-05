@@ -71,22 +71,24 @@ const ChatMessages = () => {
           </button>
         </div>
       </div>
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm flex justify-center items-center">
-        {results.map((t, index) => (
+      {input.trim() !== "" &&
+        results.length > 0 &&
+        results.map((t, index) => (
           <div
-            className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center "
+            className="absolute inset-0 bg-black/85 backdrop-blur-sm flex justify-center items-center"
             key={index}
           >
-            <p className="font-extrabold text-blue-500">{t.name}</p>
-            <button
-              className="bg-slate-500 px-4 py-1 text-xs rounded-md cursor-pointer"
-              onClick={() => addUser(t)}
-            >
-              Add
-            </button>
+            <div className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center ">
+              <p className="font-extrabold text-blue-500">{t.name}</p>
+              <button
+                className="bg-slate-500 px-4 py-1 text-xs rounded-md cursor-pointer"
+                onClick={() => addUser(t)}
+              >
+                Add
+              </button>
+            </div>
           </div>
         ))}
-      </div>
     </div>
   );
 };
