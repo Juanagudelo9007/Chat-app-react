@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/userStore";
 
 const ChatMessages = () => {
-  const { findUser, results, input, addUser } = useAuthStore();
+  const { findUser, results, input, addUser,currentUser } = useAuthStore();
 
   useEffect(() => {
     if (input) {
@@ -17,7 +17,7 @@ const ChatMessages = () => {
         <div id="profile" className="flex justify-start items-center gap-4">
           <img src="./avatar.png" alt="" className="h-14 w-14 rounded-xl" />
           <div id="name-lastOnline" className="flex flex-col">
-            <h1>Baner</h1>
+            <h1 className="capitalize">{currentUser.name}</h1>
             <i className="text-[8px] text-white/40">Last time Online</i>
           </div>
         </div>
@@ -79,7 +79,7 @@ const ChatMessages = () => {
             key={index}
           >
             <div className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center ">
-              <p className="font-extrabold text-blue-500">{t.name}</p>
+              <p className="font-extrabold text-blue-500 capitalize">{t.name}</p>
               <button
                 className="bg-slate-500 px-4 py-1 text-xs rounded-md cursor-pointer"
                 onClick={() => addUser(t)}

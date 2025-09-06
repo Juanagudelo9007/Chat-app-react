@@ -10,6 +10,7 @@ const ChatList = () => {
   useEffect(() => {
     if (!currentUser) return;
     loadChats();
+ 
   }, [currentUser]);
 
   return (
@@ -46,7 +47,7 @@ const ChatList = () => {
               >
                 <FiMinusCircle />
               </button>
-              <h1 className="text-[14px]">{t.name}</h1>
+              <h1 className="text-[14px] capitalize">{t.name}</h1>
             </div>
           </div>
         ))}

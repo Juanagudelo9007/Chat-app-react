@@ -53,7 +53,9 @@ const Login = () => {
           email,
         });
         await setDoc(doc(db, "UserChats", res.user.uid), {
-          chats: [],
+          userAdded: [],
+          messages: [],
+
         });
         console.log("User saved:", res.user);
         userInfo(res.user.uid);

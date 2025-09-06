@@ -75,7 +75,7 @@ const useAuthStore = create((set, get) => ({
       const updatedList = [...chatList, user];
       set({ chatList: updatedList });
       await setDoc(doc(db, "UserChats", currentUser.id), {
-        chats: updatedList,
+        userAdded: updatedList,
       });
     }
   },
@@ -86,7 +86,7 @@ const useAuthStore = create((set, get) => ({
     set({ chatList: updatedList });
 
     await setDoc(doc(db, "UserChats", currentUser.id), {
-      chats: updatedList,
+      userAdded: updatedList,
     });
   },
 
@@ -95,14 +95,18 @@ const useAuthStore = create((set, get) => ({
   loadChats: async () => {
     const { currentUser } = get();
     if (!currentUser) return;
+    try {
+      const ref = doc(db, "UserChats", currentUser.id);
+      const snap = await getDoc(ref);
 
-    const ref = doc(db, "UserChats", currentUser.id);
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-      set({ chatList: snap.data().chats || [] });
-    } else {
-      set({ chatList: [] });
+      if (snap.exists()) {
+        console.log("chat loaded:", snap.data());
+        set({ chatList: snap.data().userAdded || [] });
+      } else {
+        set({ chatList: [] });
+      }
+    } catch (error) {
+      console.log("an error happened while getting chats", error);
     }
   },
 
