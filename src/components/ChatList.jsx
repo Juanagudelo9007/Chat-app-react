@@ -10,7 +10,6 @@ const ChatList = () => {
   useEffect(() => {
     if (!currentUser) return;
     loadChats();
- 
   }, [currentUser]);
 
   return (

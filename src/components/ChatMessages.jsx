@@ -2,7 +2,18 @@ import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/userStore";
 
 const ChatMessages = () => {
-  const { findUser, results, input, addUser,currentUser } = useAuthStore();
+  const {
+    findUser,
+    results,
+    input,
+    addUser,
+    currentUser,
+    messagesActive,
+    messagesOwn,
+    inputText,
+    setInputText,
+    loadMessages,
+  } = useAuthStore();
 
   useEffect(() => {
     if (input) {
@@ -10,6 +21,15 @@ const ChatMessages = () => {
       console.log("User type:", input);
     }
   }, [input]);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    loadMessages();
+  }, [currentUser]);
+
+  {
+    /* Testing  messages */
+  }
 
   return (
     <div className="relative flex flex-2 p-2 flex-col gap-2 ">
@@ -34,7 +54,7 @@ const ChatMessages = () => {
               alt=""
             />
             <div className="flex flex-col  rounded-md">
-              <p className=" bg-black/70 p-2 rounded-md text-[9px] text-justify">
+              <p className=" bg-black/70 p-2 rounded-lg text-[9px] text-justify rounded-bl-none">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Consectetur voluptate non, aspernatur placeat assumenda hic
                 saepe dolorum exercitationem incidunt doloribus praesentium
@@ -45,16 +65,16 @@ const ChatMessages = () => {
             </div>
           </div>
           <div className="flex flex-col p-2 gap-1 " id="userOn">
-            <div className="flex flex-col items-end rounded-md">
-              <p className=" bg-white/30 p-2 rounded-md text-[9px]  text-justify w-[70%]">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Consectetur voluptate non, aspernatur placeat assumenda hic
-                saepe dolorum exercitationem incidunt doloribus praesentium
-                voluptatum quas nihil vitae inventore, similique alias molestias
-                nemo?
-              </p>
-              <i className="text-[7px] font-light  text-white/60">2 min ago</i>
-            </div>
+            {messagesOwn.map((t, id) => (
+              <div className="flex flex-col items-end rounded-md" key={id}>
+                <p className="bg-white/40 p-2 rounded-lg text-[9px]  text-base w-[60%] rounded-br-none">
+                  {t}
+                </p>
+                <i className="text-[7px] font-light  text-white/60">
+                  2 min ago
+                </i>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -63,10 +83,15 @@ const ChatMessages = () => {
           <input
             className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none w-full font-extralight"
             type="text"
+            value={inputText}
             placeholder="Type something..."
+            onChange={(e) => setInputText(e.target.value)}
           />
 
-          <button className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer">
+          <button
+            className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer"
+            onClick={messagesActive}
+          >
             Send
           </button>
         </div>
@@ -79,7 +104,9 @@ const ChatMessages = () => {
             key={index}
           >
             <div className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center ">
-              <p className="font-extrabold text-blue-500 capitalize">{t.name}</p>
+              <p className="font-extrabold text-blue-500 capitalize">
+                {t.name}
+              </p>
               <button
                 className="bg-slate-500 px-4 py-1 text-xs rounded-md cursor-pointer"
                 onClick={() => addUser(t)}

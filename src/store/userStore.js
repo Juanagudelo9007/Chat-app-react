@@ -10,16 +10,20 @@ import {
   limit,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const db = getFirestore(app);
 
 const useAuthStore = create((set, get) => ({
   currentUser: null,
-  results: [],
-  input: "",
-  chatList: [],
   isLoading: true,
+  input: "",
+  inputText: "",
+  chatList: [],
+  messagesOwn: [],
+  results: [],
+  setInputText: (value) => set({ inputText: value }),
   setIsLoading: (value) => set({ isLoading: value }),
   setInput: (value) => set({ input: value }),
 
@@ -74,7 +78,7 @@ const useAuthStore = create((set, get) => ({
     if (!chatList.find((t) => t.id === user.id)) {
       const updatedList = [...chatList, user];
       set({ chatList: updatedList });
-      await setDoc(doc(db, "UserChats", currentUser.id), {
+      await setDoc(doc(db, "userChats", currentUser.id), {
         userAdded: updatedList,
       });
     }
@@ -85,28 +89,62 @@ const useAuthStore = create((set, get) => ({
     const updatedList = chatList.filter((user) => user.id !== id);
     set({ chatList: updatedList });
 
-    await setDoc(doc(db, "UserChats", currentUser.id), {
+    await setDoc(doc(db, "userChats", currentUser.id), {
       userAdded: updatedList,
     });
   },
 
-  /* Just a test  */
+  /* Load and persist added users  */
 
   loadChats: async () => {
     const { currentUser } = get();
     if (!currentUser) return;
     try {
-      const ref = doc(db, "UserChats", currentUser.id);
+      const ref = doc(db, "userChats", currentUser.id);
       const snap = await getDoc(ref);
 
       if (snap.exists()) {
-        console.log("chat loaded:", snap.data());
+        console.log("chatList Loaded:", snap.data());
         set({ chatList: snap.data().userAdded || [] });
       } else {
         set({ chatList: [] });
       }
     } catch (error) {
       console.log("an error happened while getting chats", error);
+    }
+  },
+
+  /* Messages Own  (active sesion)*/
+
+  messagesActive: async (id) => {
+    const { inputText, messagesOwn, setInputText, currentUser } = get();
+    const updatedChat = [...messagesOwn, inputText];
+    setInputText("");
+    set({ messagesOwn: updatedChat });
+    const ref = doc(db, "chatMessages", currentUser.id);
+    await updateDoc(ref, {
+      messages: updatedChat,
+    });
+  },
+
+  /* Load Messages  */
+
+  loadMessages: async () => {
+    const { currentUser, messagesOwn } = get();
+
+    if (!currentUser) return;
+
+    try {
+      const chatRef = doc(db, "chatMessages", currentUser.id);
+      const chatSnap = await getDoc(chatRef);
+      if (chatSnap.exists()) {
+        console.log("Messages Loaded", chatSnap.data());
+        set({ messagesOwn: chatSnap.data().messages || [] });
+      } else {
+        set({ messagesOwn: [] });
+      }
+    } catch (error) {
+      console.log("Error while loading savedMessages", error);
     }
   },
 

@@ -49,13 +49,14 @@ const Login = () => {
         await updateProfile(res.user, { displayName: name });
         await setDoc(doc(db, "Users", res.user.uid), {
           id: res.user.uid,
-          name,
+          name: name.toLowerCase(),
           email,
         });
-        await setDoc(doc(db, "UserChats", res.user.uid), {
+        await setDoc(doc(db, "userChats", res.user.uid), {
           userAdded: [],
+        });
+        await setDoc(doc(db, "chatMessages", res.user.uid), {
           messages: [],
-
         });
         console.log("User saved:", res.user);
         userInfo(res.user.uid);
