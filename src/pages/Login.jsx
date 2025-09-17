@@ -55,9 +55,7 @@ const Login = () => {
         await setDoc(doc(db, "userChats", res.user.uid), {
           userAdded: [],
         });
-        await setDoc(doc(db, "chatMessages", res.user.uid), {
-          messages: [],
-        });
+
         console.log("User saved:", res.user);
         userInfo(res.user.uid);
         toast.success("User Created", {

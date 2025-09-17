@@ -11,18 +11,22 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  serverTimestamp,
+  arrayUnion,
 } from "firebase/firestore";
 
 const db = getFirestore(app);
 
 const useAuthStore = create((set, get) => ({
+  receiver: null,
   currentUser: null,
   isLoading: true,
   input: "",
   inputText: "",
   chatList: [],
-  messagesOwn: [],
+  messages: [],
   results: [],
+  setReceiver: (user) => set({ receiver: user }),
   setInputText: (value) => set({ inputText: value }),
   setIsLoading: (value) => set({ isLoading: value }),
   setInput: (value) => set({ input: value }),
@@ -35,7 +39,10 @@ const useAuthStore = create((set, get) => ({
       const userSnap = await getDoc(docUser);
 
       if (userSnap.exists()) {
-        set({ currentUser: userSnap.data(), isLoading: false });
+        set({
+          currentUser: { id: userSnap.id, ...userSnap.data() },
+          isLoading: false,
+        });
         console.log("User Info:", userSnap.data());
       } else {
         set({ currentUser: null, isLoading: false });
@@ -62,7 +69,7 @@ const useAuthStore = create((set, get) => ({
       const list = [];
       userSnap.forEach((d) => {
         if (d.id !== currentUser.id) {
-          list.push(d.data());
+          list.push({ id: d.id, ...d.data() });
         }
       });
       set({ results: list });
@@ -70,16 +77,30 @@ const useAuthStore = create((set, get) => ({
       console.log("Error just happened", error);
     }
   },
-
   /* Add User */
 
   addUser: async (user) => {
-    const { chatList, currentUser } = get();
+    console.log("User added:", user);
+    const { chatList, currentUser, chatId } = get();
     if (!chatList.find((t) => t.id === user.id)) {
       const updatedList = [...chatList, user];
       set({ chatList: updatedList });
       await setDoc(doc(db, "userChats", currentUser.id), {
+        currentReceiver: user.id,
         userAdded: updatedList,
+      });
+    }
+    set({ receiver: user });
+    const idChat = chatId(currentUser.id, user.id);
+    console.log("chatId :", idChat);
+    const ref = doc(db, "chats", idChat);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      await setDoc(ref, {
+        users: [currentUser.id, user.id],
+        createdAt: serverTimestamp(),
+        messages: [],
+        lastMessage: "",
       });
     }
   },
@@ -105,9 +126,14 @@ const useAuthStore = create((set, get) => ({
 
       if (snap.exists()) {
         console.log("chatList Loaded:", snap.data());
-        set({ chatList: snap.data().userAdded || [] });
+        const data = snap.data();
+        set({ chatList: data.userAdded || [] });
+        const userReceiver = (data.userAdded || []).find(
+          (u) => u.id === data.currentReceiver
+        );
+        set({ receiver: userReceiver || null });
       } else {
-        set({ chatList: [] });
+        set({ chatList: [], receiver: null });
       }
     } catch (error) {
       console.log("an error happened while getting chats", error);
@@ -116,39 +142,66 @@ const useAuthStore = create((set, get) => ({
 
   /* Messages Own  (active sesion)*/
 
-  messagesActive: async (id) => {
-    const { inputText, messagesOwn, setInputText, currentUser } = get();
-    const updatedChat = [...messagesOwn, inputText];
+  messagesActive: async () => {
+    const { inputText, messages, setInputText, chatId, currentUser, receiver } =
+      get();
+    if (!inputText.trim() || !currentUser || !receiver) return;
+    const idChat = chatId(currentUser.id, receiver.id);
+    if (!idChat) return;
+
+    const newMessage = {
+      text: inputText,
+      senderId: currentUser.id,
+
+      /* Best thing i can do now, serverTimeStamp doesn't work with updateDoc and array union */
+      timestamp: new Date().toDateString(),
+    };
+
+    const updatedChat = [...messages, newMessage];
     setInputText("");
-    set({ messagesOwn: updatedChat });
-    const ref = doc(db, "chatMessages", currentUser.id);
+    set({ messages: updatedChat });
+
+    const ref = doc(db, "chats", idChat);
     await updateDoc(ref, {
-      messages: updatedChat,
+      text: arrayUnion({
+        messages: updatedChat,
+      }),
     });
+    console.log("chatUpdated:", updatedChat);
   },
 
-  /* Load Messages  */
+  /* Load Messages user active  */
 
   loadMessages: async () => {
-    const { currentUser, messagesOwn } = get();
+    const { currentUser, receiver, chatId } = get();
 
-    if (!currentUser) return;
+    if (!currentUser || !receiver) return;
+    const idChat = chatId(currentUser.id, receiver.id);
+    if (!idChat) return;
 
     try {
-      const chatRef = doc(db, "chatMessages", currentUser.id);
+      const chatRef = doc(db, "chats", idChat);
       const chatSnap = await getDoc(chatRef);
       if (chatSnap.exists()) {
         console.log("Messages Loaded", chatSnap.data());
-        set({ messagesOwn: chatSnap.data().messages || [] });
+        set({ messages: chatSnap.data().messages || [] });
       } else {
-        set({ messagesOwn: [] });
+        set({ messages: [] });
       }
+      console.log("chat restored:", chatRef);
     } catch (error) {
-      console.log("Error while loading savedMessages", error);
+      console.log("Error while loading saved Messages", error);
     }
   },
 
-  logOut: () => set({ currentUser: null }),
+  /* ChatId */
+
+  chatId: (id1, id2) => {
+    if (!id1 || !id2) return null;
+    return id1 < id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
+  },
+
+  logOut: () => set({ currentUser: null, receiver: null }),
 }));
 
 export default useAuthStore;

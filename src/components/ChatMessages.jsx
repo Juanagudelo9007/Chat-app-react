@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, } from "react";
 import useAuthStore from "../store/userStore";
 
 const ChatMessages = () => {
@@ -9,11 +9,18 @@ const ChatMessages = () => {
     addUser,
     currentUser,
     messagesActive,
-    messagesOwn,
+    messages,
     inputText,
     setInputText,
-    loadMessages,
+    receiver,
+   loadMessages
   } = useAuthStore();
+
+ useEffect(() => {
+   if (!currentUser || !receiver) return;
+   loadMessages();
+ }, [currentUser, receiver]);
+
 
   useEffect(() => {
     if (input) {
@@ -22,11 +29,14 @@ const ChatMessages = () => {
     }
   }, [input]);
 
+  
   useEffect(() => {
-    if (!currentUser) return;
-    loadMessages();
-  }, [currentUser]);
+    console.log("currentUser:", currentUser);
+    console.log("receiver:", receiver);
+  }, [currentUser, receiver]);
 
+
+    
   {
     /* Testing  messages */
   }
@@ -54,7 +64,7 @@ const ChatMessages = () => {
               alt=""
             />
             <div className="flex flex-col  rounded-md">
-              <p className=" bg-black/70 p-2 rounded-lg text-[9px] text-justify rounded-bl-none">
+              <p className=" bg-black/70 p-2 rounded-lg text-[10px] text-justify rounded-bl-none">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Consectetur voluptate non, aspernatur placeat assumenda hic
                 saepe dolorum exercitationem incidunt doloribus praesentium
@@ -65,10 +75,10 @@ const ChatMessages = () => {
             </div>
           </div>
           <div className="flex flex-col p-2 gap-1 " id="userOn">
-            {messagesOwn.map((t, id) => (
+            {messages.map((t, id) => (
               <div className="flex flex-col items-end rounded-md" key={id}>
-                <p className="bg-white/40 p-2 rounded-lg text-[9px]  text-base w-[60%] rounded-br-none">
-                  {t}
+                <p className="bg-white/40 p-2 rounded-lg text-[10px]  text-base w-[60%] rounded-br-none">
+                  {t.text}
                 </p>
                 <i className="text-[7px] font-light  text-white/60">
                   2 min ago
@@ -90,7 +100,9 @@ const ChatMessages = () => {
 
           <button
             className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer"
-            onClick={messagesActive}
+            onClick={()=>{
+              console.log('btn sent clicked'); 
+              messagesActive()}}
           >
             Send
           </button>

@@ -4,12 +4,21 @@ import useAuthStore from "../store/userStore";
 import { useEffect } from "react";
 
 const ChatList = () => {
-  const { input, setInput, chatList, deleteUser, currentUser, loadChats } =
-    useAuthStore();
+  const {
+    input,
+    setInput,
+    chatList,
+    deleteUser,
+    currentUser,
+    loadChats,
+    loadMessages,
+    setReceiver,
+  } = useAuthStore();
 
   useEffect(() => {
     if (!currentUser) return;
     loadChats();
+    loadMessages();
   }, [currentUser]);
 
   return (
@@ -31,9 +40,13 @@ const ChatList = () => {
 
         {chatList.map((t, index) => (
           <div
-            className="flex items-center j gap-2  bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70"
+            className="flex items-center j gap-2  bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70 cursor-pointer"
             key={index}
             id="profile-info"
+            onClick={()=>{
+              loadMessages();
+              setReceiver(t)
+            }}
           >
             <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
             <div
