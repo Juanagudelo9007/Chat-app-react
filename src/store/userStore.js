@@ -163,9 +163,7 @@ const useAuthStore = create((set, get) => ({
 
     const ref = doc(db, "chats", idChat);
     await updateDoc(ref, {
-      text: arrayUnion({
-        messages: updatedChat,
-      }),
+      messages: arrayUnion(newMessage),
     });
     console.log("chatUpdated:", updatedChat);
   },

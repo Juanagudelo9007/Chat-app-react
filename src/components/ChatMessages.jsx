@@ -1,4 +1,4 @@
-import React, { useEffect, } from "react";
+import React, { useEffect } from "react";
 import useAuthStore from "../store/userStore";
 
 const ChatMessages = () => {
@@ -13,14 +13,13 @@ const ChatMessages = () => {
     inputText,
     setInputText,
     receiver,
-   loadMessages
+    loadMessages,
   } = useAuthStore();
 
- useEffect(() => {
-   if (!currentUser || !receiver) return;
-   loadMessages();
- }, [currentUser, receiver]);
-
+  useEffect(() => {
+    if (!currentUser || !receiver) return;
+    loadMessages();
+  }, [currentUser, receiver]);
 
   useEffect(() => {
     if (input) {
@@ -29,14 +28,11 @@ const ChatMessages = () => {
     }
   }, [input]);
 
-  
   useEffect(() => {
     console.log("currentUser:", currentUser);
     console.log("receiver:", receiver);
   }, [currentUser, receiver]);
 
-
-    
   {
     /* Testing  messages */
   }
@@ -57,32 +53,25 @@ const ChatMessages = () => {
         id="mid-messages"
       >
         <div id="messages">
-          <div className="flex flex-col p-2 gap-1 w-[70%]" id="otherUser">
-            <img
-              className="w-6 h-6 rounded-full object-cover"
-              src="./avatar.png"
-              alt=""
-            />
-            <div className="flex flex-col  rounded-md">
-              <p className=" bg-black/70 p-2 rounded-lg text-[10px] text-justify rounded-bl-none">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Consectetur voluptate non, aspernatur placeat assumenda hic
-                saepe dolorum exercitationem incidunt doloribus praesentium
-                voluptatum quas nihil vitae inventore, similique alias molestias
-                nemo?
-              </p>
-              <i className="text-[7px] font-light text-white/60">2 min ago</i>
-            </div>
-          </div>
           <div className="flex flex-col p-2 gap-1 " id="userOn">
             {messages.map((t, id) => (
-              <div className="flex flex-col items-end rounded-md" key={id}>
-                <p className="bg-white/40 p-2 rounded-lg text-[10px]  text-base w-[60%] rounded-br-none">
+              <div
+                key={id}
+                className={`flex flex-col p-2 gap-1 max-w-[70%] ${
+                  t.senderId === currentUser.id
+                    ? "self-end items-end"
+                    : "self-start items-start"
+                }`}
+              >
+                <p
+                  className={`p-2 text-[10px] rounded-lg ${
+                    t.senderId === currentUser.id
+                      ? "bg-white/40 rounded-br-none"
+                      : "bg-black/70 text-white rounded-bl-none"
+                  }`}
+                >
                   {t.text}
                 </p>
-                <i className="text-[7px] font-light  text-white/60">
-                  2 min ago
-                </i>
               </div>
             ))}
           </div>
@@ -100,9 +89,10 @@ const ChatMessages = () => {
 
           <button
             className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer"
-            onClick={()=>{
-              console.log('btn sent clicked'); 
-              messagesActive()}}
+            onClick={() => {
+              console.log("btn sent clicked");
+              messagesActive();
+            }}
           >
             Send
           </button>
