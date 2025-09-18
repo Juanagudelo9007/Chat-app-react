@@ -12,11 +12,13 @@ const ChatList = () => {
     currentUser,
     loadChats,
     setReceiver,
+    loadMessages
   } = useAuthStore();
 
   useEffect(() => {
     if (!currentUser) return;
     loadChats();
+    
   }, [currentUser]);
 
   return (

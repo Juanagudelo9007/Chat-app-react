@@ -181,8 +181,9 @@ const useAuthStore = create((set, get) => ({
       const chatRef = doc(db, "chats", idChat);
       const chatSnap = await getDoc(chatRef);
       if (chatSnap.exists()) {
-        console.log("Messages Loaded", chatSnap.data());
-        set({ messages: chatSnap.data().messages || [] });
+        const data = chatSnap.data()
+        console.log("Messages Loaded", data);
+        set({ messages: data.messages || [] });
       } else {
         set({ messages: [] });
       }
