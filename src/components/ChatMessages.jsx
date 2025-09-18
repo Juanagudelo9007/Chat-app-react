@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import useAuthStore from "../store/userStore";
+import { app } from "../firebase/firebase";
+import { getFirestore, onSnapshot, doc } from "firebase/firestore";
 
 const ChatMessages = () => {
   const {
@@ -14,12 +16,11 @@ const ChatMessages = () => {
     setInputText,
     receiver,
     loadMessages,
+    chatId,
+    setMessages,
   } = useAuthStore();
 
-  useEffect(() => {
-    if (!currentUser || !receiver) return;
-    loadMessages();
-  }, [currentUser, receiver]);
+  const db = getFirestore(app);
 
   useEffect(() => {
     if (input) {
@@ -32,6 +33,15 @@ const ChatMessages = () => {
     console.log("currentUser:", currentUser);
     console.log("receiver:", receiver);
   }, [currentUser, receiver]);
+
+  useEffect(() => {
+    if (!currentUser || !receiver) return;
+    const id = chatId(currentUser.id, receiver.id);
+    const unSub = onSnapshot(doc(db, "chats", id), (d) => {
+      setMessages(d.data().messages || []);
+    });
+    return () => unSub();
+  }, [currentUser, receiver, inputText]);
 
   {
     /* Testing  messages */

@@ -26,6 +26,7 @@ const useAuthStore = create((set, get) => ({
   chatList: [],
   messages: [],
   results: [],
+  setMessages: (value) => set({ messages: value }),
   setReceiver: (user) => set({ receiver: user }),
   setInputText: (value) => set({ inputText: value }),
   setIsLoading: (value) => set({ isLoading: value }),
@@ -181,7 +182,7 @@ const useAuthStore = create((set, get) => ({
       const chatRef = doc(db, "chats", idChat);
       const chatSnap = await getDoc(chatRef);
       if (chatSnap.exists()) {
-        const data = chatSnap.data()
+        const data = chatSnap.data();
         console.log("Messages Loaded", data);
         set({ messages: data.messages || [] });
       } else {
