@@ -92,6 +92,7 @@ const useAuthStore = create((set, get) => ({
       });
     }
     set({ receiver: user });
+
     const idChat = chatId(currentUser.id, user.id);
     console.log("chatId :", idChat);
     const ref = doc(db, "chats", idChat);
@@ -101,7 +102,6 @@ const useAuthStore = create((set, get) => ({
         users: [currentUser.id, user.id],
         createdAt: serverTimestamp(),
         messages: [],
-        lastMessage: "",
       });
     }
   },
@@ -141,7 +141,7 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
-  /* Messages Own  (active sesion)*/
+  /* Messages Own  (active sesion)*/ 
 
   messagesActive: async () => {
     const { inputText, messages, setInputText, chatId, currentUser, receiver } =
@@ -155,7 +155,7 @@ const useAuthStore = create((set, get) => ({
       senderId: currentUser.id,
 
       /* Best thing i can do now, serverTimeStamp doesn't work with updateDoc and array union */
-      timestamp: new Date().toDateString(),
+      timestamp: new Date().toISOString(),
     };
 
     const updatedChat = [...messages, newMessage];
@@ -193,6 +193,7 @@ const useAuthStore = create((set, get) => ({
       console.log("Error while loading saved Messages", error);
     }
   },
+
 
   /* ChatId */
 

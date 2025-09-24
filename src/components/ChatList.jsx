@@ -12,13 +12,12 @@ const ChatList = () => {
     currentUser,
     loadChats,
     setReceiver,
-    loadMessages
+    loadMessages,
   } = useAuthStore();
 
   useEffect(() => {
     if (!currentUser) return;
     loadChats();
-    
   }, [currentUser]);
 
   return (
@@ -38,31 +37,36 @@ const ChatList = () => {
         </div>
         <h1 className="font-extrabold">Chats</h1>
 
-        {chatList.map((t, index) => (
-          <div
-            className="flex items-center j gap-2  bg-white/30 rounded-md p-1 transition-all duration-300 hover:bg-white/70 cursor-pointer"
-            key={index}
-            id="profile-info"
-            onClick={()=>{
-              loadMessages();
-              setReceiver(t)
-            }}
-          >
-            <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
+        {chatList.map((t, index) => {
+          return (
             <div
-              className="flex items-center  gap-4 text-xs"
-              id="icons-container"
+              className="flex items-center  gap-2  bg-white/30 rounded-md p-1 transition-all duration-300  cursor-pointer hover:bg-blue-500/50 "
+              key={index}
+              id="profile-info"
+              onClick={() => {
+                loadMessages();
+                setReceiver(t);
+              }}
             >
-              <button
-                className="cursor-pointer text-[15px]"
-                onClick={() => deleteUser(t.id)}
+              <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
+              <div
+                className="flex items-center  gap-4 text-xs"
+                id="icons-container"
               >
-                <FiMinusCircle />
-              </button>
-              <h1 className="text-[14px] capitalize">{t.name}</h1>
+                <button
+                  className="cursor-pointer text-[15px]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteUser(t.id);
+                  }}
+                >
+                  <FiMinusCircle />
+                </button>
+                <h1 className="text-[14px] capitalize">{t.name}</h1>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

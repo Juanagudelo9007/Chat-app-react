@@ -15,7 +15,6 @@ const ChatMessages = () => {
     inputText,
     setInputText,
     receiver,
-    loadMessages,
     chatId,
     setMessages,
   } = useAuthStore();
@@ -43,17 +42,13 @@ const ChatMessages = () => {
     return () => unSub();
   }, [currentUser, receiver, inputText]);
 
-  {
-    /* Testing  messages */
-  }
-
   return (
     <div className="relative flex flex-2 p-2 flex-col gap-2 ">
       <div id="top" className="w-full flex flex-col p-2">
         <div id="profile" className="flex justify-start items-center gap-4">
           <img src="./avatar.png" alt="" className="h-14 w-14 rounded-xl" />
           <div id="name-lastOnline" className="flex flex-col">
-            <h1 className="capitalize">{currentUser.name}</h1>
+            {receiver && <h1 className="capitalize">{receiver.name}</h1>}
             <i className="text-[8px] text-white/40">Last time Online</i>
           </div>
         </div>
@@ -64,26 +59,37 @@ const ChatMessages = () => {
       >
         <div id="messages">
           <div className="flex flex-col p-2 gap-1 " id="userOn">
-            {messages.map((t, id) => (
-              <div
-                key={id}
-                className={`flex flex-col p-2 gap-1 max-w-[70%] ${
-                  t.senderId === currentUser.id
-                    ? "self-end items-end"
-                    : "self-start items-start"
-                }`}
-              >
-                <p
-                  className={`p-2 text-[10px] rounded-lg ${
-                    t.senderId === currentUser.id
-                      ? "bg-white/40 rounded-br-none"
-                      : "bg-black/70 text-white rounded-bl-none"
-                  }`}
-                >
-                  {t.text}
-                </p>
-              </div>
-            ))}
+            {messages.map(
+              (t, id) => (
+                console.log(
+                  "time",
+                  new Date(t.timestamp).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                ),
+                (
+                  <div
+                    key={id}
+                    className={`flex flex-col p-2 gap-1 max-w-[70%] ${
+                      t.senderId === currentUser.id
+                        ? "self-end items-end"
+                        : "self-start items-start"
+                    }`}
+                  >
+                    <p
+                      className={`p-2 text-[10px] rounded-lg ${
+                        t.senderId === currentUser.id
+                          ? "bg-white/40 rounded-br-none"
+                          : "bg-black/70 text-white rounded-bl-none"
+                      }`}
+                    >
+                      {t.text}
+                    </p>
+                  </div>
+                )
+              )
+            )}
           </div>
         </div>
       </div>
