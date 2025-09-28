@@ -5,7 +5,6 @@ import { app } from "./firebase/firebase";
 import useAuthStore from "./store/userStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-
 const App = () => {
   const { currentUser, userInfo, logOut, setIsLoading, loadChats, receiver } =
     useAuthStore();
@@ -24,14 +23,13 @@ const App = () => {
     return () => unSub();
   }, [userInfo, logOut]);
 
-
-    useEffect(() => {
-      if (currentUser) loadChats();
-    }, [currentUser]);
+  useEffect(() => {
+    if (currentUser) loadChats();
+  }, [currentUser]);
 
   return (
     <div className="w-[90vw] h-[90vh] bg-black/50 backdrop-blur-md rounded-md p-2">
-      {currentUser  ? <Home /> : <Login />}
+      {currentUser ? <Home /> : <Login />}
     </div>
   );
 };

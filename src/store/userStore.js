@@ -26,6 +26,8 @@ const useAuthStore = create((set, get) => ({
   chatList: [],
   messages: [],
   results: [],
+  newMessage: [],
+  setNewMessage: (value) => set({ newMessage: value }),
   setMessages: (value) => set({ messages: value }),
   setReceiver: (user) => set({ receiver: user }),
   setInputText: (value) => set({ inputText: value }),
@@ -102,6 +104,7 @@ const useAuthStore = create((set, get) => ({
         users: [currentUser.id, user.id],
         createdAt: serverTimestamp(),
         messages: [],
+        lastMessage: [],
       });
     }
   },
@@ -120,6 +123,7 @@ const useAuthStore = create((set, get) => ({
 
   loadChats: async () => {
     const { currentUser } = get();
+
     if (!currentUser) return;
     try {
       const ref = doc(db, "userChats", currentUser.id);
@@ -141,11 +145,18 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
-  /* Messages Own  (active sesion)*/ 
+  /* Messages Own  (active sesion)*/
 
   messagesActive: async () => {
-    const { inputText, messages, setInputText, chatId, currentUser, receiver } =
-      get();
+    const {
+      inputText,
+      messages,
+      setInputText,
+      chatId,
+      currentUser,
+      receiver,
+      messageNotification,
+    } = get();
     if (!inputText.trim() || !currentUser || !receiver) return;
     const idChat = chatId(currentUser.id, receiver.id);
     if (!idChat) return;
@@ -158,6 +169,8 @@ const useAuthStore = create((set, get) => ({
       timestamp: new Date().toISOString(),
     };
 
+    /* Testing LastMessage */
+
     const updatedChat = [...messages, newMessage];
     setInputText("");
     set({ messages: updatedChat });
@@ -165,7 +178,9 @@ const useAuthStore = create((set, get) => ({
     const ref = doc(db, "chats", idChat);
     await updateDoc(ref, {
       messages: arrayUnion(newMessage),
+      lastMessage: newMessage,
     });
+    await messageNotification(newMessage);
     console.log("chatUpdated:", updatedChat);
   },
 
@@ -194,6 +209,9 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
+  messageNotification: (n) => {
+    set({ newMessage: n });
+  },
 
   /* ChatId */
 

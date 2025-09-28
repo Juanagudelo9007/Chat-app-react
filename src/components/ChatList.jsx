@@ -1,7 +1,9 @@
 import { CiSearch } from "react-icons/ci";
 import { FiMinusCircle } from "react-icons/fi";
 import useAuthStore from "../store/userStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { app } from "../firebase/firebase";
+import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 
 const ChatList = () => {
   const {
@@ -13,7 +15,42 @@ const ChatList = () => {
     loadChats,
     setReceiver,
     loadMessages,
+    newMessage,
+    setNewMessage,
+    receiver,
+    chatId,
   } = useAuthStore();
+
+  const db = getFirestore(app);
+  const ref = useRef([]);
+
+  useEffect(() => {
+    if (!currentUser || chatList.length === 0) return;
+
+    {
+      /* Only way  that i found to listen to all the chats and clean them after user click on them */
+    }
+
+    ref.current.forEach((unsub) => unsub && unsub());
+    ref.current = [];
+
+    chatList.forEach((chatUser) => {
+      const id = chatId(currentUser.id, chatUser.id);
+      const unsub = onSnapshot(doc(db, "chats", id), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.lastMessage) {
+            setNewMessage({ chatId: id, message: data.lastMessage });
+          }
+        }
+      });
+      ref.current.push(unsub);
+    });
+
+    return () => {
+      ref.current.forEach((unsub) => unsub && unsub());
+    };
+  }, [currentUser, chatList]);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -22,14 +59,14 @@ const ChatList = () => {
 
   return (
     <div className="mt overflow-auto">
-      <div className="flex flex-col gap-4 p-2 " id="main-container">
-        <div className="relative " id="search">
+      <div className="flex flex-col gap-4 p-2" id="main-container">
+        <div className="relative" id="search">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             type="search"
             placeholder="Search..."
-            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40 text-xs p-1 font-extralight "
+            className="outline-none rounded-md pl-6 bg-[#c2c2c2]/40 text-xs p-1 font-extralight"
           />
           <span className="absolute top-1.5 left-1">
             <CiSearch />
@@ -38,19 +75,32 @@ const ChatList = () => {
         <h1 className="font-extrabold">Chats</h1>
 
         {chatList.map((t, index) => {
+          const id = chatId(currentUser.id, t.id);
+          const isNewMessage =
+            newMessage?.chatId === id && receiver?.id !== t.id;
+
           return (
             <div
-              className="flex items-center  gap-2  bg-white/30 rounded-md p-1 transition-all duration-300  cursor-pointer hover:bg-blue-500/50 "
               key={index}
               id="profile-info"
               onClick={() => {
                 loadMessages();
                 setReceiver(t);
+                if (newMessage?.chatId === id) {
+                  setNewMessage(null);
+                }
               }}
+              className={`flex items-center gap-2 rounded-md p-1 transition-all duration-300 cursor-pointer
+                ${
+                  isNewMessage
+                    ? "bg-green-700/50  animate-pulse hover:bg-green-400/70"
+                    : "bg-white/30"
+                }
+                hover:bg-black/70`}
             >
               <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
               <div
-                className="flex items-center  gap-4 text-xs"
+                className="flex items-center gap-4 text-xs"
                 id="icons-container"
               >
                 <button
