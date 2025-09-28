@@ -13,7 +13,7 @@ const UserInfo = () => {
         <div className="flex justify-center items-center gap-2">
           <img
             className="h-8 w-8 rounded-full object-cover"
-            src="./avatar.png"
+            src={currentUser.avatar}
             alt=""
           />
           <h1 className="capitalize">{currentUser.name}</h1>

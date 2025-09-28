@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/userStore";
 import { app } from "../firebase/firebase";
 import { getFirestore, onSnapshot, doc } from "firebase/firestore";
+import { GiExitDoor } from "react-icons/gi";
 
 const ChatMessages = () => {
+  const [closeSesion, setCloseSesion] = useState(false);
+
   const {
     findUser,
     results,
@@ -17,6 +20,7 @@ const ChatMessages = () => {
     receiver,
     chatId,
     setMessages,
+    logOut,
   } = useAuthStore();
 
   const db = getFirestore(app);
@@ -45,11 +49,41 @@ const ChatMessages = () => {
   return (
     <div className="relative flex flex-2 p-2 flex-col gap-2 ">
       <div id="top" className="w-full flex flex-col p-2">
-        <div id="profile" className="flex justify-start items-center gap-4">
-          <img src="./avatar.png" alt="" className="h-14 w-14 rounded-xl" />
-          <div id="name-lastOnline" className="flex flex-col">
-            {receiver && <h1 className="capitalize">{receiver.name}</h1>}
-            <i className="text-[8px] text-white/40">Last time Online</i>
+        <div
+          id="relative profile"
+          className="flex justify-between items-center gap-4"
+        >
+          <div className="flex items-center gap-2 " id="receivers info">
+            {receiver && (
+              <img
+                src={receiver.avatar}
+                alt=""
+                className="h-14 w-14 rounded-xl object-cover"
+              />
+            )}
+            {receiver && (
+              <h1 className="capitalize font-bold">{receiver.name}</h1>
+            )}
+          </div>
+
+          <div
+            className="absolute right-0 top-0 flex gap-2 items-center "
+            id="current user-logout"
+          >
+            <img
+              src={currentUser.avatar}
+              alt=""
+              className="h-8 w-8  object-cover rounded-full cursor-pointer"
+              onClick={() => setCloseSesion((prev) => !prev)}
+            />
+            {closeSesion && (
+              <button
+                className="cursor-pointer text-white/60 text-2xl"
+                onClick={logOut}
+              >
+                <GiExitDoor />
+              </button>
+            )}
           </div>
         </div>
       </div>

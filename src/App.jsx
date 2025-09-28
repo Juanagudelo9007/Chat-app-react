@@ -6,7 +6,7 @@ import useAuthStore from "./store/userStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
-  const { currentUser, userInfo, logOut, setIsLoading, loadChats, receiver } =
+  const { currentUser, userInfo, logOut, setIsLoading, loadChats,  } =
     useAuthStore();
   const auth = getAuth(app);
 

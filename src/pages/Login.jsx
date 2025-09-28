@@ -9,6 +9,7 @@ import { getFirestore, setDoc, doc } from "firebase/firestore";
 import { app } from "../firebase/firebase";
 import useAuthStore from "../store/userStore";
 import { toast, ToastContainer } from "react-toastify";
+import uploads from "../firebase/uploads";
 
 const Login = () => {
   const auth = getAuth(app);
@@ -46,9 +47,11 @@ const Login = () => {
     if (!isRegistered) {
       try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
+        const imgUrl = await uploads(photo.file);
         await updateProfile(res.user, { displayName: name });
         await setDoc(doc(db, "Users", res.user.uid), {
           id: res.user.uid,
+          avatar: imgUrl,
           name: name.toLowerCase(),
           email,
         });

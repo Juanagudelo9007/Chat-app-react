@@ -98,7 +98,10 @@ const ChatList = () => {
                 }
                 hover:bg-black/70`}
             >
-              <img className="h-8 w-8 rounded-full" src="./avatar.png" alt="" />
+              <img src={t.avatar} alt=""
+              className="h-8 w-8 object-cover rounded-full"
+              />
+
               <div
                 className="flex items-center gap-4 text-xs"
                 id="icons-container"
