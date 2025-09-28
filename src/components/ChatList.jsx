@@ -93,13 +93,15 @@ const ChatList = () => {
               className={`flex items-center gap-2 rounded-md p-1 transition-all duration-300 cursor-pointer
                 ${
                   isNewMessage
-                    ? "bg-green-700/50  animate-pulse hover:bg-green-400/70"
-                    : "bg-white/30"
+                    ? "bg-green-500/50  animate-pulse hover:bg-green-400"
+                    : "bg-white/20"
                 }
-                hover:bg-black/70`}
+              ${!isNewMessage && "hover:bg-white/40"} hover:scale-105 `}
             >
-              <img src={t.avatar} alt=""
-              className="h-8 w-8 object-cover rounded-full"
+              <img
+                src={t.avatar}
+                alt=""
+                className="h-8 w-8 object-cover rounded-full"
               />
 
               <div

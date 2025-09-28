@@ -1,30 +1,20 @@
 import React from "react";
 import ChatList from "./ChatList";
-import { RiImageEditLine } from "react-icons/ri";
-import { HiDotsHorizontal } from "react-icons/hi";
 import useAuthStore from "../store/userStore";
 
 const UserInfo = () => {
   const { currentUser } = useAuthStore();
 
   return (
-    <div className="flex flex-1 flex-col p-2 gap-4">
+    <div className="flex flex-1 flex-col p-2 gap-4 bg-black/70 rounded-md">
       <div className="flex justify-between items-center p-4 border-b-1 ">
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-3">
           <img
-            className="h-8 w-8 rounded-full object-cover"
+            className="h-9 w-9 rounded-full object-cover hover:scale-150 transition-all duration-500"
             src={currentUser.avatar}
             alt=""
           />
           <h1 className="capitalize">{currentUser.name}</h1>
-        </div>
-        <div className="flex justify-center items-center gap-2">
-          <span>
-            <RiImageEditLine />
-          </span>
-          <span>
-            <HiDotsHorizontal />
-          </span>
         </div>
       </div>
       <ChatList />

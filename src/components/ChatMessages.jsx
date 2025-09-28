@@ -3,6 +3,7 @@ import useAuthStore from "../store/userStore";
 import { app } from "../firebase/firebase";
 import { getFirestore, onSnapshot, doc } from "firebase/firestore";
 import { GiExitDoor } from "react-icons/gi";
+import { IoSend } from "react-icons/io5";
 
 const ChatMessages = () => {
   const [closeSesion, setCloseSesion] = useState(false);
@@ -58,7 +59,7 @@ const ChatMessages = () => {
               <img
                 src={receiver.avatar}
                 alt=""
-                className="h-14 w-14 rounded-xl object-cover"
+                className="h-14 w-14 rounded-xl object-cover transition-all duration-300 hover:scale-110"
               />
             )}
             {receiver && (
@@ -73,7 +74,7 @@ const ChatMessages = () => {
             <img
               src={currentUser.avatar}
               alt=""
-              className="h-8 w-8  object-cover rounded-full cursor-pointer"
+              className="h-8 w-8  object-cover rounded-full cursor-pointer transition-all duration-300 hover:scale-125"
               onClick={() => setCloseSesion((prev) => !prev)}
             />
             {closeSesion && (
@@ -138,13 +139,13 @@ const ChatMessages = () => {
           />
 
           <button
-            className="bg-black/70 px-2 py-1 rounded-md text-xs cursor-pointer"
+            className="text-lg cursor-pointer"
             onClick={() => {
               console.log("btn sent clicked");
               messagesActive();
             }}
           >
-            Send
+            <IoSend />
           </button>
         </div>
       </div>
@@ -156,6 +157,11 @@ const ChatMessages = () => {
             key={index}
           >
             <div className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center ">
+              <img
+                src={t.avatar}
+                alt=""
+                className="h-8 w-8 object-cover rounded-full"
+              />
               <p className="font-extrabold text-blue-500 capitalize">
                 {t.name}
               </p>
