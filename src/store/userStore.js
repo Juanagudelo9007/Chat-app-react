@@ -220,6 +220,13 @@ const useAuthStore = create((set, get) => ({
     return id1 < id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
   },
 
+  /* Clear chat after delete user */
+
+  clearChat: () => {
+    set({ receiver: null });
+    set({ messages: [] });
+  },
+
   logOut: () => set({ currentUser: null, receiver: null }),
 }));
 

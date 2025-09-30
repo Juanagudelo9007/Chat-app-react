@@ -4,6 +4,8 @@ import { app } from "../firebase/firebase";
 import { getFirestore, onSnapshot, doc } from "firebase/firestore";
 import { GiExitDoor } from "react-icons/gi";
 import { IoSend } from "react-icons/io5";
+import { IoMdPersonAdd } from "react-icons/io";
+import { motion } from "framer-motion";
 
 const ChatMessages = () => {
   const [closeSesion, setCloseSesion] = useState(false);
@@ -48,8 +50,8 @@ const ChatMessages = () => {
   }, [currentUser, receiver, inputText]);
 
   return (
-    <div className="relative flex flex-2 p-2 flex-col gap-2 ">
-      <div id="top" className="w-full flex flex-col p-2">
+    <div className="relative flex flex-2 p-2 flex-col gap-3 ">
+      <div id="top" className="w-full flex flex-col p-3">
         <div
           id="relative profile"
           className="flex justify-between items-center gap-4"
@@ -59,7 +61,7 @@ const ChatMessages = () => {
               <img
                 src={receiver.avatar}
                 alt=""
-                className="h-14 w-14 rounded-xl object-cover transition-all duration-300 hover:scale-110"
+                className="h-14 w-14 rounded-2xl object-cover transition-all duration-300 hover:scale-110 rounded-bl-none "
               />
             )}
             {receiver && (
@@ -74,7 +76,7 @@ const ChatMessages = () => {
             <img
               src={currentUser.avatar}
               alt=""
-              className="h-8 w-8  object-cover rounded-full cursor-pointer transition-all duration-300 hover:scale-125"
+              className="h-8 w-8  object-cover rounded-full cursor-pointer transition-all duration-300 hover:scale-110"
               onClick={() => setCloseSesion((prev) => !prev)}
             />
             {closeSesion && (
@@ -88,88 +90,105 @@ const ChatMessages = () => {
           </div>
         </div>
       </div>
-      <div
-        className="flex-1 flex-col overflow-auto bg-[#c2c2c2]/30 rounded-md"
-        id="mid-messages"
-      >
-        <div id="messages">
-          <div className="flex flex-col p-2 gap-1 " id="userOn">
-            {messages.map(
-              (t, id) => (
-                console.log(
-                  "time",
-                  new Date(t.timestamp).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                ),
-                (
-                  <div
-                    key={id}
-                    className={`flex flex-col p-2 gap-1 max-w-[70%] ${
-                      t.senderId === currentUser.id
-                        ? "self-end items-end"
-                        : "self-start items-start"
-                    }`}
-                  >
-                    <p
-                      className={`p-2 text-[10px] rounded-lg ${
-                        t.senderId === currentUser.id
-                          ? "bg-white/40 rounded-br-none"
-                          : "bg-black/70 text-white rounded-bl-none"
-                      }`}
-                    >
-                      {t.text}
-                    </p>
-                  </div>
-                )
-              )
-            )}
-          </div>
-        </div>
-      </div>
-      <div id="bottom">
-        <div className=" relative flex justify-between items-center gap-2 ">
-          <input
-            className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none w-full font-extralight"
-            type="text"
-            value={inputText}
-            placeholder="Type something..."
-            onChange={(e) => setInputText(e.target.value)}
-          />
-
-          <button
-            className="text-lg cursor-pointer"
-            onClick={() => {
-              console.log("btn sent clicked");
-              messagesActive();
-            }}
+      {receiver ? (
+        <>
+          <div
+            className="flex-1 flex-col overflow-auto bg-[#c2c2c2]/30 rounded-md"
+            id="mid-messages"
           >
-            <IoSend />
-          </button>
+            <div id="messages">
+              <div className="flex flex-col p-2 gap-1 " id="userOn">
+                {messages.map(
+                  (t, id) => (
+                    console.log(
+                      "time",
+                      new Date(t.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    ),
+                    (
+                      <div
+                        key={id}
+                        className={`flex flex-col p-2 gap-1 max-w-[70%] ${
+                          t.senderId === currentUser.id
+                            ? "self-end items-end"
+                            : "self-start items-start"
+                        }`}
+                      >
+                        <p
+                          className={`p-2 text-[10px] font-bold rounded-lg ${
+                            t.senderId === currentUser.id
+                              ? "bg-white/40 rounded-br-none"
+                              : "bg-black/70 text-white rounded-bl-none"
+                          }`}
+                        >
+                          {t.text}
+                        </p>
+                      </div>
+                    )
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+          <div id="bottom">
+            <div className=" relative flex justify-between items-center gap-2 ">
+              <input
+                className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none w-full font-bold"
+                type="text"
+                value={inputText}
+                placeholder="Type something..."
+                onChange={(e) => setInputText(e.target.value)}
+              />
+
+              <motion.button
+                className="text-lg cursor-pointer"
+                onClick={() => {
+                  console.log("btn sent clicked");
+                  messagesActive();
+                }}
+                whileTap={{
+                  scale: 0.75,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                }}
+              >
+                <IoSend />
+              </motion.button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-xl text-white/60 font-bold mt-10">
+          🔍 Add a contact to begin chatting
         </div>
-      </div>
+      )}
+
       {input.trim() !== "" &&
         results.length > 0 &&
         results.map((t, index) => (
           <div
-            className="absolute inset-0 bg-black/85 backdrop-blur-sm flex justify-center items-center"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center"
             key={index}
           >
-            <div className="bg-white/30  text-black w-[180px] rounded-md p-2 flex justify-between items-center ">
+            <div className="bg-white/40  border-white   text-black w-[180px]  rounded-md p-2 flex justify-between items-center ">
               <img
                 src={t.avatar}
                 alt=""
-                className="h-8 w-8 object-cover rounded-full"
+                className="h-9 w-9 object-cover rounded-full"
               />
-              <p className="font-extrabold text-blue-500 capitalize">
+              <p className="font-extrabold text-black/70 capitalize">
                 {t.name}
               </p>
               <button
-                className="bg-slate-500 px-4 py-1 text-xs rounded-md cursor-pointer"
+                className="px-4 py-1 text-xl text-white rounded-md cursor-pointer"
                 onClick={() => addUser(t)}
               >
-                Add
+                <IoMdPersonAdd />
               </button>
             </div>
           </div>

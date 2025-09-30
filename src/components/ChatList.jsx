@@ -19,6 +19,7 @@ const ChatList = () => {
     setNewMessage,
     receiver,
     chatId,
+    clearChat,
   } = useAuthStore();
 
   const db = getFirestore(app);
@@ -105,7 +106,7 @@ const ChatList = () => {
               />
 
               <div
-                className="flex items-center gap-4 text-xs"
+                className="flex items-center gap-4 text-xs "
                 id="icons-container"
               >
                 <button
@@ -113,11 +114,12 @@ const ChatList = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteUser(t.id);
+                    clearChat();
                   }}
                 >
                   <FiMinusCircle />
                 </button>
-                <h1 className="text-[14px] capitalize">{t.name}</h1>
+                <h1 className="text-[14px] capitalize font-bold">{t.name}</h1>
               </div>
             </div>
           );

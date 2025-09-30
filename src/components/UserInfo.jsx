@@ -6,7 +6,7 @@ const UserInfo = () => {
   const { currentUser } = useAuthStore();
 
   return (
-    <div className="flex flex-1 flex-col p-2 gap-4 bg-black/70 rounded-md">
+    <div className="flex flex-1 flex-col p-2 gap-4 bg-black/50 rounded-md">
       <div className="flex justify-between items-center p-4 border-b-1 ">
         <div className="flex justify-center items-center gap-3">
           <img
@@ -14,7 +14,7 @@ const UserInfo = () => {
             src={currentUser.avatar}
             alt=""
           />
-          <h1 className="capitalize">{currentUser.name}</h1>
+          <h1 className="capitalize font-bold">{currentUser.name}</h1>
         </div>
       </div>
       <ChatList />
