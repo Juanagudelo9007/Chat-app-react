@@ -117,6 +117,7 @@ const useAuthStore = create((set, get) => ({
     await setDoc(doc(db, "userChats", currentUser.id), {
       userAdded: updatedList,
     });
+    await clearChat(id)
   },
 
   /* Load and persist added users  */
@@ -222,9 +223,37 @@ const useAuthStore = create((set, get) => ({
 
   /* Clear chat after delete user */
 
-  clearChat: () => {
-    set({ receiver: null });
-    set({ messages: [] });
+  clearChat: async (id) => {
+    const { chatList, currentUser, chatId, set } = get();
+    if (!currentUser) return;
+
+    const idChat = chatId(currentUser.id, id);
+    if (idChat) {
+      const chatRef = doc(db, "chats", idChat);
+      try {
+        await updateDoc(chatRef, {
+          messages: [],
+          lastMessage: [],
+        });
+      } catch (error) {
+        console.log("Error while deleting chat");
+      }
+    }
+
+    const listUpdated = chatList.filter((user) => user.id !== id);
+
+    set({
+      chatList: listUpdated,
+      messages: [],
+      receiver: null,
+    });
+    try {
+      await setDoc(doc(db, "userChats", currentUser.id), {
+        userAdded: listUpdated,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   },
 
   logOut: () => set({ currentUser: null, receiver: null }),

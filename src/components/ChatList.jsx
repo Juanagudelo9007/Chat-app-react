@@ -114,7 +114,7 @@ const ChatList = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteUser(t.id);
-                    clearChat();
+                    clearChat(t.id);
                   }}
                 >
                   <FiMinusCircle />

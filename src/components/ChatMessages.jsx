@@ -93,7 +93,7 @@ const ChatMessages = () => {
       {receiver ? (
         <>
           <div
-            className="flex-1 flex-col overflow-auto bg-[#c2c2c2]/30 rounded-md"
+            className="flex-1 flex-col overflow-auto bg-white/10 rounded-md"
             id="mid-messages"
           >
             <div id="messages">
@@ -119,7 +119,7 @@ const ChatMessages = () => {
                         <p
                           className={`p-2 text-[10px] font-bold rounded-lg ${
                             t.senderId === currentUser.id
-                              ? "bg-white/40 rounded-br-none"
+                              ? "bg-white/35 rounded-br-none"
                               : "bg-black/70 text-white rounded-bl-none"
                           }`}
                         >
