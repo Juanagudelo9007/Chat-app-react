@@ -50,7 +50,7 @@ const ChatMessages = () => {
   }, [currentUser, receiver, inputText]);
 
   return (
-    <div className="relative flex flex-2 p-2 flex-col gap-3 ">
+    <div className="relative flex flex-2 p-2 flex-col gap-3  h-[500px] md:h-full">
       <div id="top" className="w-full flex flex-col p-3">
         <div
           id="relative profile"
@@ -70,7 +70,7 @@ const ChatMessages = () => {
           </div>
 
           <div
-            className="absolute right-0 top-0 flex gap-2 items-center "
+            className="absolute right-0 top-0 flex gap-2 items-center p-2"
             id="current user-logout"
           >
             <img
@@ -93,7 +93,7 @@ const ChatMessages = () => {
       {receiver ? (
         <>
           <div
-            className="flex-1 flex-col overflow-auto bg-white/10 rounded-md"
+            className="flex-1 flex-col overflow-auto bg-white/20 rounded-md"
             id="mid-messages"
           >
             <div id="messages">
@@ -110,7 +110,7 @@ const ChatMessages = () => {
                     (
                       <div
                         key={id}
-                        className={`flex flex-col p-2 gap-1 max-w-[70%] ${
+                        className={`flex flex-col p-2 gap-1 w-full ${
                           t.senderId === currentUser.id
                             ? "self-end items-end"
                             : "self-start items-start"
@@ -163,7 +163,7 @@ const ChatMessages = () => {
           </div>
         </>
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center text-xl text-white/60 font-bold mt-10">
+        <div className="absolute inset-0 flex items-center justify-center text-lg text-white/60 font-bold mt-10 md:text-xl p-4">
           🔍 Add a contact to begin chatting
         </div>
       )}

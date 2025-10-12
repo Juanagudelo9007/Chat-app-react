@@ -59,8 +59,8 @@ const ChatList = () => {
   }, [currentUser]);
 
   return (
-    <div className="mt overflow-auto">
-      <div className="flex flex-col gap-4 p-2" id="main-container">
+    <div className="overflow-auto">
+      <div className="flex flex-col gap-4 p-3 " id="main-container">
         <div className="relative" id="search">
           <input
             value={input}
@@ -91,13 +91,15 @@ const ChatList = () => {
                   setNewMessage(null);
                 }
               }}
-              className={`flex items-center gap-2 rounded-md p-1 transition-all duration-300 cursor-pointer
+              className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden  rounded-md
                 ${
                   isNewMessage
                     ? "bg-green-500/50  animate-pulse hover:bg-green-400"
                     : "bg-white/20"
                 }
-              ${!isNewMessage && "hover:bg-white/40"} hover:scale-105 `}
+              ${
+                !isNewMessage && "hover:bg-white/40"
+              } hover:scale-105  hover:rounded-lg`}
             >
               <img
                 src={t.avatar}
@@ -106,7 +108,7 @@ const ChatList = () => {
               />
 
               <div
-                className="flex items-center gap-4 text-xs "
+                className="flex items-center gap-4 text-xs"
                 id="icons-container"
               >
                 <button

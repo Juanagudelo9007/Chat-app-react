@@ -9,7 +9,7 @@ import { getFirestore, setDoc, doc } from "firebase/firestore";
 import { app } from "../firebase/firebase";
 import useAuthStore from "../store/userStore";
 import uploads from "../firebase/uploads";
-import { motion, scale } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const auth = getAuth(app);
