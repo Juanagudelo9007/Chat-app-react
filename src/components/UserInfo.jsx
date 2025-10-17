@@ -6,7 +6,7 @@ const UserInfo = () => {
   const { currentUser } = useAuthStore();
 
   return (
-    <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col p-2 gap-4 bg-black/50 rounded-md">
+    <div className="w-full h-1/2 md:w-1/2 md:h-full flex flex-col p-2 gap-4 bg-white/70 rounded-md text-black">
       <div className="justify-between items-center p-4 border-b-1 hidden md:flex  ">
         <div className="flex justify-center items-center gap-3 ">
           <img

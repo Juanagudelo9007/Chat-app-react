@@ -91,15 +91,15 @@ const ChatList = () => {
                   setNewMessage(null);
                 }
               }}
-              className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden  rounded-md
+              className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden   border-b border-black 
                 ${
                   isNewMessage
-                    ? "bg-green-500/50  animate-pulse hover:bg-green-400"
-                    : "bg-white/20"
+                    ? "bg-blue-600  animate-pulse hover:bg-blue-400"
+                    : "bg-none "
                 }
               ${
-                !isNewMessage && "hover:bg-white/40"
-              } hover:scale-105  hover:rounded-lg`}
+                !isNewMessage && "hover:bg-gray-300"
+              } hover:scale-105 `}
             >
               <img
                 src={t.avatar}

@@ -28,7 +28,7 @@ const App = () => {
   }, [currentUser]);
 
   return (
-    <div className="w-[90vw] h-[90vh] bg-black/70 backdrop-blur-sm rounded-md p-2">
+    <div className="w-[90vw]  md:h-[90vh] bg-white/30 backdrop-blur-sm rounded-md p-2 border-1">
       {currentUser ? <Home /> : <Login />}
     </div>
   );

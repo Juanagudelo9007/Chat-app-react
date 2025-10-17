@@ -50,7 +50,7 @@ const ChatMessages = () => {
   }, [currentUser, receiver, inputText]);
 
   return (
-    <div className="relative flex flex-2 p-2 flex-col gap-3  h-[500px] md:h-full">
+    <div className="relative flex flex-2 p-2 flex-col gap-3  h-[500px] md:h-full text-black">
       <div id="top" className="w-full flex flex-col p-3">
         <div
           id="relative profile"
@@ -81,7 +81,7 @@ const ChatMessages = () => {
             />
             {closeSesion && (
               <button
-                className="cursor-pointer text-white/60 text-2xl"
+                className="cursor-pointer text-black text-2xl"
                 onClick={logOut}
               >
                 <GiExitDoor />

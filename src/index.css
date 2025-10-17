@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
-*{
+* {
   margin: 0;
   box-sizing: border-box;
 }
 
-body{
-  background-image: url("/33.avif");
-    background-size: cover;
-   background-position: center;
+body {
+  background-image: url("/whitebg.avif");
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   color: white;
   background-repeat: no-repeat;
-  
-}
+  background-attachment: fixed;
 
+}
