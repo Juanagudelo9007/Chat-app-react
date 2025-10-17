@@ -51,7 +51,10 @@ const ChatMessages = () => {
 
   return (
     <div className="relative flex flex-2 p-2 flex-col gap-3  h-[500px] md:h-full text-black">
-      <div id="top" className="w-full flex flex-col p-3">
+      <div
+        id="top"
+        className="w-full flex flex-col p-3 border-b border-gray-400 "
+      >
         <div
           id="relative profile"
           className="flex justify-between items-center gap-4"
@@ -76,7 +79,7 @@ const ChatMessages = () => {
             <img
               src={currentUser.avatar}
               alt=""
-              className="h-8 w-8  object-cover rounded-full cursor-pointer transition-all duration-300 hover:scale-110"
+              className="h-8 w-8  object-cover rounded-full cursor-pointer transition-all duration-300 hover:scale-110 border-2 border-gray-900"
               onClick={() => setCloseSesion((prev) => !prev)}
             />
             {closeSesion && (
@@ -93,7 +96,7 @@ const ChatMessages = () => {
       {receiver ? (
         <>
           <div
-            className="flex-1 flex-col overflow-auto bg-white/60 rounded-md"
+            className="flex-1 flex-col overflow-auto bg-white/10 rounded-md"
             id="mid-messages"
           >
             <div id="messages">
@@ -135,7 +138,7 @@ const ChatMessages = () => {
           <div id="bottom">
             <div className=" relative flex justify-between items-center gap-2 ">
               <input
-                className=" bg-[#c2c2c2]/40 text-xs py-1 rounded-md pl-2 outline-none w-full font-bold"
+                className=" bg-[#c2c2c2]/70 text-xs py-1 rounded-md pl-2 outline-none w-full font-bold"
                 type="text"
                 value={inputText}
                 placeholder="Type something..."

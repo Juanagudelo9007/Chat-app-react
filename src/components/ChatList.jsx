@@ -1,5 +1,5 @@
 import { CiSearch } from "react-icons/ci";
-import { FiMinusCircle } from "react-icons/fi";
+import { AiFillDelete } from "react-icons/ai";
 import useAuthStore from "../store/userStore";
 import { useEffect, useRef } from "react";
 import { app } from "../firebase/firebase";
@@ -91,20 +91,18 @@ const ChatList = () => {
                   setNewMessage(null);
                 }
               }}
-              className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden   border-b border-black 
+              className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden   border-b border-gray-300 
                 ${
                   isNewMessage
                     ? "bg-blue-600  animate-pulse hover:bg-blue-400"
                     : "bg-none "
                 }
-              ${
-                !isNewMessage && "hover:bg-gray-300"
-              } hover:scale-105 `}
+              ${!isNewMessage && "hover:bg-gray-300"} hover:scale-105 `}
             >
               <img
                 src={t.avatar}
                 alt=""
-                className="h-8 w-8 object-cover rounded-full"
+                className="h-8 w-8 object-cover rounded-full "
               />
 
               <div
@@ -119,7 +117,7 @@ const ChatList = () => {
                     clearChat(t.id);
                   }}
                 >
-                  <FiMinusCircle />
+                  <AiFillDelete />
                 </button>
                 <h1 className="text-[14px] capitalize font-bold">{t.name}</h1>
               </div>

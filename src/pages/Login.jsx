@@ -82,7 +82,7 @@ const Login = () => {
     <div className="flex justify-center items-center h-full ">
       {!isLoading && !localLoading && (
         <form
-          className="flex flex-col gap-5 bg-slate-100/20 p-5 rounded-sm shadow-[0px_0px_5px_rgba(255,255,255,0.8)]"
+          className="flex flex-col gap-5 items-center bg-gray-500/30 p-5 rounded-sm shadow-[0px_0px_5px_rgba(255,255,255,0.8)]"
           onSubmit={handleForm}
         >
           <input
@@ -95,7 +95,7 @@ const Login = () => {
             <>
               <label
                 htmlFor="file"
-                className="cursor-pointer hover:underline text-xs"
+                className="cursor-pointer hover:underline text-xs flex flex-col items-center"
               >
                 {" "}
                 <img
@@ -129,7 +129,7 @@ const Login = () => {
             id="password"
           />
           <motion.button
-            className="bg-[#2e2e2e] rounded-sm py-1 cursor-pointer font-bold tracking-wide shadow-[0px_2px_3px_rgba(0,0,0,0.8)]"
+            className="bg-[#2e2e2e] w-full rounded-sm py-1 cursor-pointer font-bold tracking-wide shadow-[0px_2px_3px_rgba(0,0,0,0.8)]"
             whileHover={{
               backgroundColor: "#1e1e1e",
             }}
