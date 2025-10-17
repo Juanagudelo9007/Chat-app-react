@@ -44,6 +44,8 @@ After a few attempts, I realized the two stores would need to communicate with e
 I also tried my best to separate the logic and responsibilities into different stores.
 It’s not the most optimal solution, but it’s what my current knowledge allows me to do.
 
+Each message shows the time using JavaScript’s toLocaleTimeString, just showing hours and minutes.
+
 🧠 Performance Issues & Future Improvements
 
 Currently, the app faces some performance issues when a user is created — it takes around 7–8 seconds to load.

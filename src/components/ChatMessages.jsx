@@ -128,7 +128,7 @@ const ChatMessages = () => {
                         >
                           {t.text}
                         </p>
-                        <i className="text-[9px] text-black/70">
+                        <i className="text-[8px] text-black/70">
                           {new Date(t.timestamp).toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
