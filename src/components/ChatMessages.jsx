@@ -120,7 +120,7 @@ const ChatMessages = () => {
                         }`}
                       >
                         <p
-                          className={`p-2 text-[10px] font-bold rounded-lg ${
+                          className={`p-2 text-[12px] font-bold rounded-lg  ${
                             t.senderId === currentUser.id
                               ? "bg-gray-300 rounded-br-none"
                               : "bg-black/70 text-white rounded-bl-none"
@@ -128,6 +128,12 @@ const ChatMessages = () => {
                         >
                           {t.text}
                         </p>
+                        <i className="text-[9px] text-black/70">
+                          {new Date(t.timestamp).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </i>
                       </div>
                     )
                   )
