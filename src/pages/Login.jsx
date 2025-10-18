@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -155,12 +156,14 @@ const Login = () => {
         </form>
       )}
 
-      {(isLoading || localLoading) && (
-        <div className="fixed flex flex-col gap-4 inset-0 items-center justify-center bg-black/70 z-20 backdrop-blur-xl">
-          <div className="w-12 h-12 border-6 border-white border-t-transparent rounded-full animate-spin"></div>
-          Loading...
-        </div>
-      )}
+      {(isLoading || localLoading) &&
+        createPortal(
+          <div className="fixed flex flex-col gap-4 inset-0 items-center justify-center bg-black/70 z-10 backdrop-blur-xl ">
+            <div className="w-12 h-12 border-6 border-white border-t-transparent rounded-full animate-spin"></div>
+            Loading...
+          </div>,
+          document.getElementById("overlay")
+        )}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import useAuthStore from "../store/userStore";
 import { useEffect, useRef } from "react";
 import { app } from "../firebase/firebase";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+import UseDebounced from "../Hooks/UseDebounced";
 
 const ChatList = () => {
   const {
@@ -20,7 +21,15 @@ const ChatList = () => {
     receiver,
     chatId,
     clearChat,
+    findUser,
   } = useAuthStore();
+  const debouncedInput = UseDebounced(input, 500);
+
+  useEffect(() => {
+    if (debouncedInput.trim() !== "") {
+      findUser();
+    }
+  }, [debouncedInput]);
 
   const db = getFirestore(app);
   const ref = useRef([]);

@@ -181,7 +181,7 @@ const ChatMessages = () => {
         results.length > 0 &&
         results.map((t, index) => (
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center"
+            className="absolute inset-0 bg-black/90 backdrop-blur-md flex  justify-center items-center"
             key={index}
           >
             <div className="bg-white/40  border-white   text-black w-[180px]  rounded-md p-2 flex justify-between items-center ">
@@ -190,9 +190,7 @@ const ChatMessages = () => {
                 alt=""
                 className="h-9 w-9 object-cover rounded-full"
               />
-              <p className="font-extrabold text-black/70 capitalize">
-                {t.name}
-              </p>
+              <p className="font-extrabold text-white capitalize">{t.name}</p>
               <button
                 className="px-4 py-1 text-xl text-white rounded-md cursor-pointer"
                 onClick={() => addUser(t)}

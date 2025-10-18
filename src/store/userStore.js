@@ -117,7 +117,7 @@ const useAuthStore = create((set, get) => ({
     await setDoc(doc(db, "userChats", currentUser.id), {
       userAdded: updatedList,
     });
-    await clearChat(id)
+    await clearChat(id);
   },
 
   /* Load and persist added users  */

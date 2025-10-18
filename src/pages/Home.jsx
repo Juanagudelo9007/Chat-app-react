@@ -4,7 +4,7 @@ import UserInfo from "../components/UserInfo";
 
 const Home = () => {
   return (
-    <div className="flex flex-col md:h-full w-full md:flex-row  h-[820px]">
+    <div className="flex flex-col w-full md:flex-row  h-full">
       <UserInfo />
       <ChatMessages />
     </div>
