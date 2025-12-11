@@ -68,7 +68,7 @@ const ChatMessages = () => {
               />
             )}
             {receiver && (
-              <h1 className="capitalize font-bold">{receiver.name}</h1>
+              <h1 className="capitalize font-bold text-white">{receiver.name}</h1>
             )}
           </div>
 
@@ -84,7 +84,7 @@ const ChatMessages = () => {
             />
             {closeSesion && (
               <button
-                className="cursor-pointer text-black text-2xl"
+                className="cursor-pointer text-white text-2xl"
                 onClick={logOut}
               >
                 <GiExitDoor />
@@ -96,7 +96,7 @@ const ChatMessages = () => {
       {receiver ? (
         <>
           <div
-            className="flex-1 flex-col overflow-auto bg-white/10 rounded-md"
+            className="flex-1 flex-col overflow-auto bg-white/30 rounded-md"
             id="mid-messages"
           >
             <div id="messages">
@@ -122,13 +122,13 @@ const ChatMessages = () => {
                         <p
                           className={`p-2 text-[12px] font-bold rounded-lg  ${
                             t.senderId === currentUser.id
-                              ? "bg-gray-300 rounded-br-none"
-                              : "bg-black/70 text-white rounded-bl-none"
+                              ? "bg-gray-100 rounded-br-none"
+                              : "bg-black/50 text-white rounded-bl-none"
                           }`}
                         >
                           {t.text}
                         </p>
-                        <i className="text-[8px] text-black/70">
+                        <i className="text-[8px] text-white">
                           {new Date(t.timestamp).toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
@@ -152,7 +152,7 @@ const ChatMessages = () => {
               />
 
               <motion.button
-                className="text-lg cursor-pointer"
+                className="text-lg cursor-pointer text-white/80"
                 onClick={() => {
                   console.log("btn sent clicked");
                   messagesActive();

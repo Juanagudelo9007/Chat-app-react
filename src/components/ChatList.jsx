@@ -69,7 +69,7 @@ const ChatList = () => {
 
   return (
     <div className="overflow-auto">
-      <div className="flex flex-col gap-4 p-3 " id="main-container">
+      <div className="flex flex-col gap-4 p-3" id="main-container">
         <div className="relative" id="search">
           <input
             value={input}
@@ -103,10 +103,10 @@ const ChatList = () => {
               className={`flex items-center  gap-2 p-2 transition-all duration-300 cursor-pointer overflow-hidden   border-b border-gray-300 
                 ${
                   isNewMessage
-                    ? "bg-blue-600  animate-pulse hover:bg-blue-400"
+                    ? "bg-green-800  animate-pulse hover:bg-green-400"
                     : "bg-none "
                 }
-              ${!isNewMessage && "hover:bg-gray-300"} hover:scale-105 `}
+              ${!isNewMessage && "hover:bg-black"} hover:scale-105 `}
             >
               <img
                 src={t.avatar}
@@ -128,7 +128,7 @@ const ChatList = () => {
                 >
                   <AiFillDelete />
                 </button>
-                <h1 className="text-[14px] capitalize font-bold">{t.name}</h1>
+                <h1 className="text-[14px] capitalize font-bold ">{t.name}</h1>
               </div>
             </div>
           );
